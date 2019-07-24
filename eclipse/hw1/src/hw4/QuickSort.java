@@ -1,11 +1,13 @@
 package hw4;
 import java.lang.Math;
+import java.util.Random;
 public class QuickSort {
 	
-	public static void populate(int[] numbers) {
+	public static int[] populate(int[] numbers) {
 		for (int i = 0; i < 10000; i++) {
 			numbers[i] = (int) (Math.random() * (10001));
 		}
+		return numbers;
 	}
 	
 	public static int[] duplicate(int[] numbers) {
@@ -94,30 +96,62 @@ public class QuickSort {
 		   Quicksort(numbers, i, j);
 		   Quicksort(numbers, j + 1, k);
 		}
+				
+		public static void testPerformance(int[] n, String type) {
+			// pivot: midpoint
+			long timePre;
+			long timePost;
+			
+			switch(type) {
+				case "RANDOM":
+					timePre = System.currentTimeMillis();
+					Quicksort(n, getRandomIndex(0, 10000), n.length - 1);
+					timePost = System.currentTimeMillis();
+					System.out.println("TEST TYPE = RANDOM ");
+					System.out.println("Runtime = " + Long.toString(timePost- timePre));
+					break;
+				case "FIRST":
+					timePre = System.currentTimeMillis();
+					Quicksort(n, n[0], n[n.length-1] );
+					timePost = System.currentTimeMillis();
+					System.out.println("TEST TYPE = FIRST ");
+					System.out.println("Runtime = " + Long.toString(timePost- timePre));
+					break;
+				case "MID":
+					timePre = System.currentTimeMillis();
+					Quicksort(n, n[n.length/2], n[n.length -1] );
+					timePost = System.currentTimeMillis();
+					System.out.println("TEST TYPE = MID ");
+					System.out.println("Runtime = " + Long.toString(timePost- timePre));
+					break;
+				case "LAST":
+					timePre = System.currentTimeMillis();
+					Quicksort(n, n[n.length-1], n[0] );
+					timePost = System.currentTimeMillis();
+					System.out.println("TEST TYPE = LAST ");
+					System.out.println("Runtime = " + Long.toString(timePost- timePre));
+					break;
+			}
+		
+		}
+		
+		public static int getRandomIndex(int low, int high) {
+			Random r = new Random();
+			return r.nextInt(high-low) + low;
+		}
 
 		public static void main(String[] args) {
-		   //int [] numbers = { 10, 2, 78, 4, 45, 32, 7, 11 };
-		   //final int NUMBERS_SIZE = 8;
-		   //int i = 0;
 			
-			int[] numbers = new int[10000];
-			populate(numbers);
-			System.out.print(numbers.length);
+			int[] n1 = populate(new int[10000]);
+			int[] n2 = duplicate(n1);
+			int[] n3 = duplicate(n1);
+			int[] n4 = duplicate(n1);
+			
+			//testPerformance(n1, "RANDOM");
+			//testPerformance(n2, "FIRST");
+			// FIX testPerformance(n3, "MID");
+			testPerformance(n4, "LAST");
 		   
-		   System.out.print("UNSORTED: ");
-//		   for(i = 0; i < NUMBERS_SIZE; ++i) {
-//		      System.out.print(numbers[i] + " ");
-//		   }
-		   System.out.println();
-		   
-		   // Initial call to quicksort
-		  // Quicksort(numbers, 0, NUMBERS_SIZE - 1);
-		   
-		   System.out.print("SORTED: ");
-//		   for(i = 0; i < NUMBERS_SIZE; ++i) {
-//		      System.out.print(numbers[i] + " ");
-//		   }
-		   System.out.println();
 		}
 		 
 //		UNSORTED: 10 2 78 4 45 32 7 11 
